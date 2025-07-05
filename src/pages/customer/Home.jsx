@@ -51,7 +51,7 @@ const Home = () => {
                         {[...Array(5)].map((_, i) => (
                             <Star
                                 key={i}
-                                className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                                className={`w-4 h-4 ₱{i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                             />
                         ))}
                     </div>
@@ -60,11 +60,11 @@ const Home = () => {
 
                 <div className="flex items-center justify-between">
                     <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        ${product.price}
+                    ₱{product.price}
                     </span>
-                    <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-md">
+                    {/* <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-md">
                         Add to Cart
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@ const Home = () => {
                             <div className="hidden md:flex space-x-8">
                                 <a href="/" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Home</a>
                                 <a href="/products" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Products</a>
-                                <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Categories</a>
+                                {/* <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Categories</a> */}
                                 <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">About</a>
                             </div>
                         </div>
@@ -211,7 +211,7 @@ const Home = () => {
                             <ul className="space-y-2 text-gray-400">
                                 <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
                                 <li><a href="#" className="hover:text-white transition-colors">Products</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Categories</a></li>
+                                {/* <li><a href="#" className="hover:text-white transition-colors">Categories</a></li> */}
                                 <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
                             </ul>
                         </div>

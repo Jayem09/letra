@@ -40,9 +40,9 @@ export const deleteProduct = async (id) => {
 
 // Update product
 export const updateProduct = async (id, updatedProduct) => {
-    await updateDoc(doc(db, 'products', id), updatedProduct);
+    const productRef = doc(db, 'products', id); // Get reference to the product by ID
+    await updateDoc(productRef, updatedProduct);  // Update the product document in Firestore
 };
-
 // Get a single product by ID
 export const getProductById = async (id) => {
     const docRef = doc(db, 'products', id);  // Get reference to product by ID
@@ -62,5 +62,7 @@ export const uploadImage = async (file) => {
     const imageURL = await getDownloadURL(storageRef);  // Get the URL for the uploaded image
     return imageURL;  // Return the image URL
 };
+
+
 
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';  // Use useNavigate instead of useHistory
 import { getProducts } from '../../services/firebase';
 import ProductCard from '../../components/customer/ProductCard';
 import { Search, Filter, Loader } from 'lucide-react';
@@ -8,6 +9,10 @@ const Products = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState('all');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+
+    const navigate = useNavigate();  // Use navigate for navigation
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -27,8 +32,14 @@ const Products = () => {
     const filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesFilter = filter === 'all' || product.category === filter;
-        return matchesSearch && matchesFilter;
+        const matchesPrice = (!minPrice || product.price >= minPrice) && (!maxPrice || product.price <= maxPrice);
+        return matchesSearch && matchesFilter && matchesPrice;
     });
+
+    // Handle product click, navigate to product detail page
+    const handleProductClick = (productId) => {
+        navigate(`/product/${productId}`);  // Navigate to the product details page
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 w-screen overflow-x-hidden">
@@ -66,6 +77,23 @@ const Products = () => {
                                 <option value="home">Home & Kitchen</option>
                             </select>
                         </div>
+                        {/* Price Range */}
+                        <div className="flex gap-4">
+                            <input
+                                type="number"
+                                placeholder="Min Price"
+                                className="pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={minPrice}
+                                onChange={(e) => setMinPrice(e.target.value)}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Max Price"
+                                className="pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={maxPrice}
+                                onChange={(e) => setMaxPrice(e.target.value)}
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -77,7 +105,13 @@ const Products = () => {
                 ) : filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {filteredProducts.map(product => (
-                            <ProductCard key={product.id} product={product} />
+                            <div
+                                key={product.id}
+                                className="cursor-pointer"
+                                onClick={() => handleProductClick(product.id)} // Handle product click to navigate
+                            >
+                                <ProductCard product={product} />
+                            </div>
                         ))}
                     </div>
                 ) : (

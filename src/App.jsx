@@ -5,6 +5,7 @@ import Dashboard from './pages/admin/Dashboard';
 import ManageProducts from './pages/admin/ManageProduct';
 import AddProduct from './pages/admin/AddProducts'; // Ensure correct path
 import PageNotFound from './pages/PageNotFound';
+import ProductDetail from './pages/customer/ProductDetails';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/admin/manage-products" element={<ManageProducts />} />
         <Route path="/admin/add-products" element={<AddProduct />} /> {/* Ensure correct path */}
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
     </Router>
   );
