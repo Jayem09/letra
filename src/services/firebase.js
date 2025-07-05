@@ -64,5 +64,25 @@ export const uploadImage = async (file) => {
 };
 
 
+// Assuming you have a function to update a product's "featured" status
+// Add a product to the featured collection
+export const setProductAsFeatured = async (product) => {
+    const featuredCollectionRef = collection(db, 'featuredProducts');
 
+    // Add the product to the featured products collection
+    await addDoc(featuredCollectionRef, product);
+};
+
+// Get featured products from Firebase
+export const getFeaturedProducts = async () => {
+    const featuredCollectionRef = collection(db, 'featuredProducts');
+    const querySnapshot = await getDocs(featuredCollectionRef);
+
+    const featuredProducts = [];
+    querySnapshot.forEach(doc => {
+        featuredProducts.push({ id: doc.id, ...doc.data() });
+    });
+
+    return featuredProducts;
+};
 

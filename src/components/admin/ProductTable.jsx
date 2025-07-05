@@ -1,7 +1,6 @@
-import React from 'react';
-import { Trash2, Edit } from 'lucide-react';
+import { Trash2, Edit, Star } from "lucide-react"; // Import the Star icon
 
-const ProductTable = ({ products, onDelete, onEdit, loading, editingProduct, onUpdate }) => {
+const ProductTable = ({ products, onDelete, onEdit, loading, editingProduct, onUpdate, onSetFeatured }) => {
 
     const handleSaveEdit = () => {
         // Ensure editingProduct exists and has the necessary data
@@ -80,10 +79,7 @@ const ProductTable = ({ products, onDelete, onEdit, loading, editingProduct, onU
                                         className="w-full p-2 border border-gray-300 rounded-lg"
                                     />
                                 ) : (
-                                    `${!isNaN(parseFloat(product.price)) && typeof parseFloat(product.price) === 'number'
-                                        ? parseFloat(product.price).toFixed(2)
-                                        : 'N/A'
-                                    }`
+                                    `$${product.price.toFixed(2)}`
                                 )}
                             </td>
                             <td className="px-4 py-5 whitespace-nowrap">
@@ -122,6 +118,13 @@ const ProductTable = ({ products, onDelete, onEdit, loading, editingProduct, onU
                                         title="Delete"
                                     >
                                         <Trash2 className="h-4 w-4" />
+                                    </button>
+                                    <button
+                                        onClick={() => onSetFeatured(product)} // Trigger the 'set featured' function
+                                        className="p-2 rounded-lg text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 transition-colors"
+                                        title="Mark as Featured"
+                                    >
+                                        <Star className="h-4 w-4" />
                                     </button>
                                 </div>
                             </td>

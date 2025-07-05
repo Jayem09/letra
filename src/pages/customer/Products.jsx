@@ -72,9 +72,10 @@ const Products = () => {
                                 onChange={(e) => setFilter(e.target.value)}
                             >
                                 <option value="all">All Categories</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
+                                <option value="electronics">Toilet Bowl</option>
+                                <option value="clothing">Basin/Labatory</option>
                                 <option value="home">Home & Kitchen</option>
+                                <option value="home">Shower Enclosure</option>
                             </select>
                         </div>
                         {/* Price Range */}
