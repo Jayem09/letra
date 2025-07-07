@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 
 const PrivateRoute = ({ children }) => {
     const [loading, setLoading] = useState(true);
@@ -13,25 +13,23 @@ const PrivateRoute = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                // No user logged in, redirect to login
-                navigate("/login");
+                navigate("/login");  // Redirect if not logged in
                 return;
             }
 
             try {
-                // Check if user has admin role in Firestore
+                // Fetch the user's data from Firestore
                 const userDoc = await getDoc(doc(db, "users", user.uid));
 
                 if (userDoc.exists() && userDoc.data().role === "admin") {
                     setIsAdmin(true);
                     setLoading(false);
                 } else {
-                    // User is logged in but not admin, redirect to home or show error
-                    navigate("/"); // or navigate("/unauthorized")
+                    navigate("/unauthorized");  // Redirect if not admin
                 }
             } catch (error) {
                 console.error("Error checking admin status:", error);
-                navigate("/");
+                navigate("/unauthorized");  // Redirect on error
             }
         });
 
@@ -43,7 +41,7 @@ const PrivateRoute = ({ children }) => {
     }
 
     if (!isAdmin) {
-        return null; // Will redirect anyway
+        return null; // If not admin, return null to render nothing
     }
 
     return children;

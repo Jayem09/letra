@@ -33,10 +33,26 @@ const Home = () => {
     // Function to safely format the price
     const formatPrice = (price) => {
         if (typeof price === 'number') {
-            return price.toFixed(2);  // Format to 2 decimal places
+            return price.toFixed(2);
         }
-        return 'N/A';  // Return 'N/A' if the price is invalid
+        return 'N/A';
     };
+
+    // Modern Logo Component
+    const Logo = () => (
+        <div className="flex items-center space-x-2">
+            <div className="relative">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">E</span>
+                </div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full"></div>
+            </div>
+            <div className="flex flex-col">
+                <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">EDAR</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 leading-none">CMT</span>
+            </div>
+        </div>
+    );
 
     const ProductCard = ({ product }) => (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
@@ -72,9 +88,6 @@ const Home = () => {
                     <span className="text-lg font-semibold text-gray-900 dark:text-white">
                         ₱{formatPrice(product.price)}
                     </span>
-                    {/* <button className="bg-blue-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
-                        Add to Cart
-                    </button> */}
                 </div>
             </div>
         </div>
@@ -94,9 +107,10 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
-                            <a href="/" className="text-xl font-bold text-gray-900 dark:text-white">
-                                ShopLogo
+                            <a href="/" className="flex items-center">
+                                <Logo />
                             </a>
+
                             <div className="hidden md:flex ml-10 space-x-8">
                                 <a href="/" className="text-gray-900 dark:text-white font-medium">Home</a>
                                 <a href="/products" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Products</a>
@@ -154,7 +168,7 @@ const Home = () => {
                             placeholder="Search products..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white placeholder-gray-400"
                         />
                     </div>
 
@@ -163,7 +177,7 @@ const Home = () => {
                         <select
                             value={filterCategory}
                             onChange={(e) => setFilterCategory(e.target.value)}
-                            className="pl-4 pr-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="pl-4 pr-8 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white"
                         >
                             <option value="all">All Categories</option>
                             <option value="electronics">Electronics</option>
@@ -207,7 +221,9 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">ShopLogo</h3>
+                            <div className="mb-4">
+                                <Logo />
+                            </div>
                             <p className="text-gray-600 dark:text-gray-400">
                                 Your trusted partner for premium products and exceptional shopping experience.
                             </p>

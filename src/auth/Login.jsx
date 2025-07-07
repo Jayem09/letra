@@ -1,78 +1,68 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
     const auth = getAuth();
 
-    const handleLogin = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError('');
-
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            // Redirect to admin dashboard after successful login
-            navigate('/admin/dashboard');
-        } catch (error) {
-            setError('Invalid email or password');
-            console.error('Login error:', error);
-        } finally {
-            setLoading(false);
-        }
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log("User logged in:", user);
+                navigate("/admin/dashboard");
+            })
+            .catch((error) => {
+                console.error("Error logging in:", error);
+                setMessage("Invalid credentials");
+            });
     };
 
     return (
-        <div className="login-container" style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
-            <h2>Admin Login</h2>
-            <form onSubmit={handleLogin}>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="email">Email:</label>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+            <div className="w-full max-w-sm">
+                <div className="text-center mb-8">
+                    <h1 className="text-2xl font-medium text-gray-900">Login</h1>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="email"
-                        id="email"
+                        placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
                         required
-                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                     />
-                </div>
 
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="password">Password:</label>
                     <input
                         type="password"
-                        id="password"
+                        placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
                         required
-                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                     />
-                </div>
 
-                {error && <p style={{ color: 'red', marginBottom: '15px' }}>{error}</p>}
+                    <button
+                        type="submit"
+                        className="w-full px-4 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    >
+                        Login
+                    </button>
+                </form>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    style={{
-                        width: '100%',
-                        padding: '10px',
-                        backgroundColor: '#007bff',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: loading ? 'not-allowed' : 'pointer'
-                    }}
-                >
-                    {loading ? 'Logging in...' : 'Login'}
-                </button>
-            </form>
+                {message && (
+                    <p className="mt-4 text-sm text-red-600 text-center">
+                        {message}
+                    </p>
+                )}
+            </div>
         </div>
     );
 };
