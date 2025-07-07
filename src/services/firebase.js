@@ -85,4 +85,3 @@ export const getFeaturedProducts = async () => {
 
     return featuredProducts;
 };
-

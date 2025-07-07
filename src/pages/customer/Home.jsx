@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Search, ShoppingCart, User, Menu, Heart, Star, Plus } from "lucide-react";
-import { Link } from "react-router-dom"; // Import Link
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -11,12 +10,12 @@ const Home = () => {
     // Mock products for demonstration
     useEffect(() => {
         const mockProducts = [
-            { id: 1, name: "Premium Headphones", price: 199.99, category: "electronics", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop", rating: 4.5 },
-            { id: 2, name: "Wireless Earbuds", price: 89.99, category: "electronics", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop", rating: 4.2 },
-            { id: 3, name: "Smart Watch", price: 299.99, category: "electronics", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop", rating: 4.8 },
-            { id: 4, name: "Bluetooth Speaker", price: 79.99, category: "electronics", image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop", rating: 4.3 },
-            { id: 5, name: "Cotton T-Shirt", price: 29.99, category: "clothing", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop", rating: 4.1 },
-            { id: 6, name: "Coffee Maker", price: 149.99, category: "home", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop", rating: 4.6 },
+            { id: 1, name: "Premium Headphones", price: 199.99, category: "electronics", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.5 },
+            { id: 2, name: "Wireless Earbuds", price: 89.99, category: "electronics", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.2 },
+            { id: 3, name: "Smart Watch", price: 299.99, category: "electronics", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.8 },
+            { id: 4, name: "Bluetooth Speaker", price: 79.99, category: "electronics", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.3 },
+            { id: 5, name: "Cotton T-Shirt", price: 29.99, category: "clothing", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.1 },
+            { id: 6, name: "Coffee Maker", price: 149.99, category: "home", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.6 },
         ];
 
         setTimeout(() => {
@@ -30,6 +29,14 @@ const Home = () => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (filterCategory === 'all' || product.category === filterCategory)
     );
+
+    // Function to safely format the price
+    const formatPrice = (price) => {
+        if (typeof price === 'number') {
+            return price.toFixed(2);  // Format to 2 decimal places
+        }
+        return 'N/A';  // Return 'N/A' if the price is invalid
+    };
 
     const ProductCard = ({ product }) => (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
@@ -63,11 +70,11 @@ const Home = () => {
 
                 <div className="flex items-center justify-between">
                     <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                        ₱{product.price}
+                        ₱{formatPrice(product.price)}
                     </span>
-                    <button className="bg-blue-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
+                    {/* <button className="bg-blue-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-blue-700 transition-colors">
                         Add to Cart
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>
@@ -211,21 +218,6 @@ const Home = () => {
                                 <li><a href="/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Home</a></li>
                                 <li><a href="/products" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Products</a></li>
                                 <li><a href="/about" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">About</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-4">Support</h4>
-                            <ul className="space-y-2">
-                                <li><a href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Contact Us</a></li>
-                                <li><a href="/faq" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">FAQ</a></li>
-                                <li><a href="/shipping" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Shipping Info</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-4">Legal</h4>
-                            <ul className="space-y-2">
-                                <li><a href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Privacy Policy</a></li>
-                                <li><a href="/terms" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Terms & Conditions</a></li>
                             </ul>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { getProductById } from '../../services/firebase';
 
 const ProductDetail = () => {
@@ -10,6 +10,7 @@ const ProductDetail = () => {
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [activeTab, setActiveTab] = useState('description');
+    const navigate = useNavigate(); // Initialize navigate
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -179,6 +180,12 @@ const ProductDetail = () => {
                                 </svg>
                             </button>
                         </div>
+                        <button
+                            onClick={() => navigate('/products')}
+                            className="bg-gray-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                        >
+                        View All Products
+                        </button>
                     </div>
                 </div>
             </div>
