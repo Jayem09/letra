@@ -1,18 +1,15 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { createHash } from 'crypto';
-
-// Polyfill for older Node.js versions
-if (!globalThis.crypto) {
-  const { webcrypto } = await import('crypto');
-  globalThis.crypto = {
-    ...webcrypto,
-    hash: (algorithm, data) => {
-      return createHash(algorithm).update(data).digest();
-    }
-  };
-}
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-});
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      }
+    }
+  }
+})
