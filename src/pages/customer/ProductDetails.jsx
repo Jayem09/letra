@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
-import { getProductById } from '../../services/firebase';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getProductById, getProducts } from '../../services/firebase';
+import ProductCard from '../../components/customer/ProductCard';
 
 const ProductDetail = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(0); // Only one main image
+    const [selectedImage, setSelectedImage] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [activeTab, setActiveTab] = useState('description');
-    const navigate = useNavigate(); // Initialize navigate
+    const navigate = useNavigate();
+    const [relatedProducts, setRelatedProducts] = useState([]);
 
     useEffect(() => {
         const fetchProduct = async () => {
             const productData = await getProductById(id);
             setProduct(productData);
+
+            if (productData?.category) {
+                const allProducts = await getProducts();
+                const filtered = allProducts.filter(p =>
+                    p.id !== id && p.category === productData.category
+                );
+                setRelatedProducts(filtered);
+            }
         };
         fetchProduct();
     }, [id]);
@@ -46,7 +56,6 @@ const ProductDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
                     {/* Product Images */}
                     <div className="space-y-4">
-                        {/* Main Image */}
                         <div className="aspect-square rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg">
                             <img
                                 src={product.image || 'https://via.placeholder.com/600x600'}
@@ -58,31 +67,25 @@ const ProductDetail = () => {
 
                     {/* Product Details */}
                     <div className="space-y-6 w-full min-h-full">
-                        {/* Product Title & Rating */}
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                {product.name}
-                            </h1>
-                            <div className="flex items-center space-x-2 mb-4">
-                                <div className="flex items-center">
-                                    {[...Array(5)].map((_, i) => (
-                                        <svg
-                                            key={i}
-                                            className={`w-5 h-5 ${i < 4 ? 'text-yellow-400' : 'text-gray-300'}`}
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    ))}
-                                </div>
-                                <span className="text-sm text-gray-600 dark:text-gray-400">
-                                    4.5 (128 reviews)
-                                </span>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{product.name}</h1>
+                        <div className="flex items-center space-x-2 mb-4">
+                            <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => (
+                                    <svg
+                                        key={i}
+                                        className={`w-5 h-5 ${i < 4 ? 'text-yellow-400' : 'text-gray-300'}`}
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                ))}
                             </div>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">
+                                4.5 (128 reviews)
+                            </span>
                         </div>
 
-                        {/* Price */}
                         <div className="flex items-center space-x-4">
                             <span className="text-3xl font-bold text-gray-900 dark:text-white">
                                 ₱{product.price}
@@ -94,24 +97,21 @@ const ProductDetail = () => {
                             )}
                         </div>
 
-                        {/* Short Description */}
                         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                            {product.description || "Premium quality product with excellent features and modern design that meets all your needs."}
+                            {product.description || "Premium quality product with excellent features and modern design."}
                         </p>
 
                         {/* Size Selection */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
-                                Size
-                            </label>
+                            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">Size</label>
                             <div className="flex space-x-3">
                                 {['XS', 'S', 'M', 'L', 'XL'].map((size) => (
                                     <button
                                         key={size}
                                         onClick={() => setSelectedSize(size)}
                                         className={`w-12 h-12 rounded-lg border-2 text-sm font-medium transition-all ${selectedSize === size
-                                            ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
-                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                                                ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                                             }`}
                                     >
                                         {size}
@@ -122,17 +122,15 @@ const ProductDetail = () => {
 
                         {/* Color Selection */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
-                                Color: {selectedColor}
-                            </label>
+                            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">Color: {selectedColor}</label>
                             <div className="flex space-x-3">
                                 {['Black', 'White', 'Gray', 'Navy'].map((color) => (
                                     <button
                                         key={color}
                                         onClick={() => setSelectedColor(color)}
                                         className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${selectedColor === color
-                                            ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
-                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                                                ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                                             }`}
                                     >
                                         {color}
@@ -143,14 +141,9 @@ const ProductDetail = () => {
 
                         {/* Quantity */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">
-                                Quantity
-                            </label>
+                            <label className="block text-sm font-medium text-gray-900 dark:text-white mb-3">Quantity</label>
                             <div className="flex items-center space-x-3">
-                                <button
-                                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                    className="w-10 h-10 rounded-lg border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800"
-                                >
+                                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-10 rounded-lg border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                                     </svg>
@@ -158,10 +151,7 @@ const ProductDetail = () => {
                                 <span className="w-16 text-center font-medium text-gray-900 dark:text-white">
                                     {quantity}
                                 </span>
-                                <button
-                                    onClick={() => setQuantity(quantity + 1)}
-                                    className="w-10 h-10 rounded-lg border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800"
-                                >
+                                <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 rounded-lg border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
@@ -182,12 +172,32 @@ const ProductDetail = () => {
                         </div>
                         <button
                             onClick={() => navigate('/products')}
-                            className="bg-gray-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                            className="w-full bg-gray-600 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors mt-4"
                         >
-                        View All Products
+                            View All Products
                         </button>
                     </div>
                 </div>
+
+                {/* Related Products */}
+                {relatedProducts.length > 0 && (
+                    <div className="mt-20">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                            You May Also Like
+                        </h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {relatedProducts.slice(0, 4).map((related) => (
+                                <div
+                                    key={related.id}
+                                    onClick={() => navigate(`/product/${related.id}`)}
+                                    className="cursor-pointer hover:scale-105 transition-transform"
+                                >
+                                    <ProductCard product={related} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

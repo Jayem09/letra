@@ -5,9 +5,8 @@ const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
-    const [filterCategory, setFilterCategory] = useState('all');
+    const [filterCategory, setFilterCategory] = useState("all");
 
-    // Mock products for demonstration
     useEffect(() => {
         const mockProducts = [
             { id: 1, name: "Premium Headphones", price: 199.99, category: "electronics", image: "https://www.luzonfoundryinc.com/images/products/thumb/sp01%20(1).png", rating: 4.5 },
@@ -24,21 +23,11 @@ const Home = () => {
         }, 1000);
     }, []);
 
-    // Filter products based on search and category
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filterCategory === 'all' || product.category === filterCategory)
+        (filterCategory === "all" || product.category === filterCategory)
     );
 
-    // Function to safely format the price
-    const formatPrice = (price) => {
-        if (typeof price === 'number') {
-            return price.toFixed(2);
-        }
-        return 'N/A';
-    };
-
-    // Modern Logo Component
     const Logo = () => (
         <div className="flex items-center space-x-2">
             <div className="relative">
@@ -55,39 +44,38 @@ const Home = () => {
     );
 
     const ProductCard = ({ product }) => (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
-            <div className="relative">
+        <div className="group relative bg-white dark:bg-gray-900 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-300 hover:shadow-lg overflow-hidden transform hover:scale-105 max-w-sm mx-auto">
+            <div className="relative overflow-hidden aspect-square">
                 <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-cover rounded-t-lg"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <button className="absolute top-2 right-2 p-1.5 bg-white dark:bg-gray-800 rounded-full shadow-sm hover:shadow-md transition-shadow">
-                    <Heart className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                </button>
             </div>
-
             <div className="p-4">
-                <h3 className="font-medium text-gray-900 dark:text-white mb-2">
+                <h3 className="font-semibold text-md text-gray-900 dark:text-white mb-1 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     {product.name}
                 </h3>
-
-                <div className="flex items-center mb-2">
-                    <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                            <Star
-                                key={i}
-                                className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-                            />
-                        ))}
-                    </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">({product.rating})</span>
-                </div>
-
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                    {product.description || "Premium quality product with modern design."}
+                </p>
                 <div className="flex items-center justify-between">
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                        ₱{formatPrice(product.price)}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                        <span className="text-base font-semibold text-gray-900 dark:text-white">
+                            ₱{product.price.toFixed(2)}
+                        </span>
+                        {product.originalPrice && (
+                            <span className="text-sm text-gray-500 line-through">
+                                ₱{product.originalPrice}
+                            </span>
+                        )}
+                    </div>
+                    <div className="flex items-center space-x-1">
+                        <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{product.rating || "4.5"}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,14 +83,11 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            {/* Location Text Navbar - Centered */}
             <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 w-full py-2 px-4">
                 <div className="max-w-7xl mx-auto flex justify-center items-center">
                     <span className="text-sm text-gray-700 dark:text-gray-300">Store Location: San Miguel Sto Tomas Batangas Philippines</span>
                 </div>
             </nav>
-
-            {/* Simple Navigation */}
             <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
@@ -110,21 +95,13 @@ const Home = () => {
                             <a href="/" className="flex items-center">
                                 <Logo />
                             </a>
-
                             <div className="hidden md:flex ml-10 space-x-8">
                                 <a href="/" className="text-gray-900 dark:text-white font-medium">Home</a>
                                 <a href="/products" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Products</a>
                                 <a href="/about" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">About</a>
                             </div>
                         </div>
-
                         <div className="flex items-center space-x-4">
-                            <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                                <ShoppingCart className="w-5 h-5" />
-                            </button>
-                            <button className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                                <User className="w-5 h-5" />
-                            </button>
                             <button className="md:hidden p-2 text-gray-500 dark:text-gray-400">
                                 <Menu className="w-5 h-5" />
                             </button>
@@ -132,10 +109,7 @@ const Home = () => {
                     </div>
                 </div>
             </nav>
-
-            {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header Section */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                         Welcome to Our Store
@@ -144,11 +118,8 @@ const Home = () => {
                         Discover amazing products with great prices and quality
                     </p>
                 </div>
-
-                {/* Search and Filter Section */}
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl text-gray-600 dark:text-gray-400">Featured Products</h2>
-
                     <a
                         href="/products"
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
@@ -157,10 +128,7 @@ const Home = () => {
                         View All Products
                     </a>
                 </div>
-
-                {/* Search Bar and Category Filter */}
                 <div className="flex items-center gap-4 mb-6">
-                    {/* Search Input */}
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
@@ -171,8 +139,6 @@ const Home = () => {
                             className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white placeholder-gray-400"
                         />
                     </div>
-
-                    {/* Category Filter */}
                     <div className="relative">
                         <select
                             value={filterCategory}
@@ -186,12 +152,10 @@ const Home = () => {
                         </select>
                     </div>
                 </div>
-
-                {/* Products Grid */}
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {[...Array(6)].map((_, i) => (
-                            <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 animate-pulse">
+                            <div key={i} className="bg-black dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 animate-pulse">
                                 <div className="bg-gray-300 dark:bg-gray-600 h-48 rounded mb-4"></div>
                                 <div className="bg-gray-300 dark:bg-gray-600 h-6 rounded mb-2"></div>
                                 <div className="bg-gray-300 dark:bg-gray-600 h-4 rounded mb-4"></div>
@@ -215,8 +179,6 @@ const Home = () => {
                     </div>
                 )}
             </div>
-
-            {/* Footer */}
             <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
