@@ -110,8 +110,8 @@ const ProductDetail = () => {
                                         key={size}
                                         onClick={() => setSelectedSize(size)}
                                         className={`w-12 h-12 rounded-lg border-2 text-sm font-medium transition-all ${selectedSize === size
-                                                ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
-                                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                                            ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                                             }`}
                                     >
                                         {size}
@@ -129,8 +129,8 @@ const ProductDetail = () => {
                                         key={color}
                                         onClick={() => setSelectedColor(color)}
                                         className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${selectedColor === color
-                                                ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
-                                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                                            ? 'border-blue-600 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                                             }`}
                                     >
                                         {color}
@@ -199,7 +199,46 @@ const ProductDetail = () => {
                     </div>
                 )}
             </div>
+
+            <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <div className="mb-6">
+                                <img src="/path/to/logo.png" alt="Logo" className="h-8" />
+                            </div>
+                            <p className="text-gray-600 dark:text-gray-400 max-w-md">
+                                Your trusted partner for premium products and exceptional shopping experience. Quality meets affordability.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-8">
+                            <div>
+                                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h4>
+                                <ul className="space-y-3">
+                                    <li><a href="/" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a></li>
+                                    <li><a href="/products" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Products</a></li>
+                                    <li><a href="/about" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Support</h4>
+                                <ul className="space-y-3">
+                                    <li><a href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a></li>
+                                    <li><a href="/shipping" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Shipping</a></li>
+                                    <li><a href="/returns" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Returns</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center">
+                        <p className="text-gray-500 dark:text-gray-400 text-sm">
+                            © 2024 EDAR CMT. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
+
     );
 };
 

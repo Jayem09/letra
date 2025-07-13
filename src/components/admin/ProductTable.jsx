@@ -22,6 +22,9 @@ const ProductTable = ({ products, onDelete, onEdit, loading, onUpdate, onSetFeat
                             Price
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Created By
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Actions
                         </th>
                     </tr>
@@ -37,6 +40,9 @@ const ProductTable = ({ products, onDelete, onEdit, loading, onUpdate, onSetFeat
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 ₱{formatPrice(product.price)} {/* Use the formatPrice function */}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                {product.createdBy || 'Unknown'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <button

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { addProduct } from '../../services/firebase';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
 const AddProduct = () => {
     const [name, setName] = useState('');
@@ -14,7 +15,20 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const newProduct = { name, price: parseFloat(price), image, category, description };
+
+        // Get the current user
+        const auth = getAuth();
+        const currentUser = auth.currentUser;
+
+        const newProduct = {
+            name,
+            price: parseFloat(price),
+            image,
+            category,
+            description,
+            createdBy: currentUser?.email || 'Unknown' // <-- Add this line
+        };
+
         await addProduct(newProduct);
         setLoading(false);
         navigate('/admin/manage-products');

@@ -10,6 +10,7 @@ import Unauthorized from './components/Unautorize'; // New component for Unautho
 import PageNotFound from './pages/PageNotFound';
 import About from './pages/customer/About';
 import ProductDetail from './pages/customer/ProductDetails';
+import Register from './auth/Register';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
 
         {/* Admin Routes - Protected with PrivateRoute */}

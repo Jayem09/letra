@@ -160,14 +160,15 @@ const About = () => {
                                     <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1" />
                                     <div>
                                         <p className="text-gray-900 dark:text-white font-medium">Phone</p>
-                                        <p className="text-gray-600 dark:text-gray-400">+63 (043) 123-4567</p>
+                                        <p className="text-gray-600 dark:text-gray-400">09165852926
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-start space-x-3">
                                     <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1" />
                                     <div>
                                         <p className="text-gray-900 dark:text-white font-medium">Email</p>
-                                        <p className="text-gray-600 dark:text-gray-400">info@edarcmt.com</p>
+                                        <p className="text-gray-600 dark:text-gray-400">efrending14@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -215,9 +216,21 @@ const About = () => {
                         <div>
                             <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-4">Quick Links</h4>
                             <ul className="space-y-2">
-                                <li><a href="/" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Home</a></li>
-                                <li><a href="/products" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Products</a></li>
-                                <li><a href="/about" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">About</a></li>
+                                <li>
+                                    <a href="/" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/products" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                                        Products
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/about" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                                        About
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
